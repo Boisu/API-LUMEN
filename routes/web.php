@@ -16,3 +16,16 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('words',  ['uses' => 'WordController@showAllWords']);
+
+    $router->get('words/{id}', ['uses' => 'WordController@showOneWord']);
+
+    $router->post('words', ['uses' => 'WordController@create']);
+
+    $router->delete('words/{id}', ['uses' => 'WordController@delete']);
+
+    $router->put('words/{id}', ['uses' => 'WordController@update']);
+  });
+
