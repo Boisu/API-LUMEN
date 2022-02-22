@@ -14,13 +14,17 @@ class WordController extends Controller
 
     public function showOneWord($id)
     {
+        $word = Word::findOrFail($id);
+        $word->counter += 1;
+        $word->save();
+
         return response()->json(Word::find($id));
     }
 
     public function create(Request $request)
     {
         $this->validate($request, [
-            'text' => 'required|unique:words',
+            'text' => 'required|unique:words|max:15',
         ]);
 
         $word = Word::create($request->all());
@@ -30,6 +34,10 @@ class WordController extends Controller
 
     public function update($id, Request $request)
     {
+        $this->validate($request, [
+            'text' => 'required|unique:words|max:15',
+        ]);
+
         $word = Word::findOrFail($id);
         $word->update($request->all());
 
